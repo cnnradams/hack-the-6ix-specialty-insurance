@@ -22,14 +22,22 @@ class ChatApp extends Component {
   addMessageBox(enter = true) {
     let messages = this.state.messages;
     let current_message = this.state.current_message;
+    let isImpageUpload;
     console.log(this.state);
 
     if (current_message && enter) {
       messages = [...messages, { "message": current_message }];
-      const obj = JSON.parse('{"response":"200", "body":"Hello!"}');
+      const obj = JSON.parse('{"response":"200", "body":"Please insert an image of the item you want to insure"}');
+
+      if (obj.body.includes("image")) {
+        isImpageUpload = true
+      } else {
+        isImpageUpload = false
+      }
       this.setState({
         messages: [...messages, { "message": obj.body, "isbotmessage": true }],
-        current_message: obj.body
+        current_message: obj.body,
+        isImageUpload: isImpageUpload
       });
     }
   }
@@ -99,7 +107,8 @@ class ChatApp extends Component {
               _handleKeyPress={this._handleKeyPress}
               onChange={this.onChange}
               message={this.state.current_message}
-              handleClick={this.handleClick} />
+              handleClick={this.handleClick}
+              isImageUpload={this.state.isImageUpload} />
           </div>
         </div>
       </div>

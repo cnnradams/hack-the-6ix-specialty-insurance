@@ -56,27 +56,41 @@ export default class UserMessageBox extends Component {
         )
     }
 
-    render() {
-        const inputField = this.getInputField();
-
-        return (
-            <div>
-                {inputField}
-                <div className="send_message" onClick={this.props.handleClick}>
-                    <div className="icon"><FontAwesomeIcon icon={faPaperPlane} /></div>
-                </div>
-                <div className="add_image" onClick={this.props.handleClick}>
-                    <FontAwesomeIcon icon={faPlus} />
-                </div>
+    getButtons = () => {
+        if (this.props.isImageUpload) {
+            return (
                 <div className="upload_file">
                     <input
                         style={{ display: 'none' }} type="file"
                         onChange={this.fileSelectedHandler}
                         ref={fileInput => this.fileInput = fileInput}
                     />
-                    <button onClick={() => this.fileInput.click()}>Pick File</button>
-                    <button onClick={this.fileUploadHandler}>Upload</button>
+                    <button className="send_message" onClick={this.fileUploadHandler}><FontAwesomeIcon icon={faPaperPlane} /></button>
+                    <button className="add_image" onClick={() => this.fileInput.click()}><FontAwesomeIcon icon={faPlus} /></button>
                 </div >
+            )
+        } else {
+            return (
+                <button className="send_message" onClick={this.props.handleClick}>
+                    <FontAwesomeIcon icon={faPaperPlane} />
+                </button>
+
+            )
+        }
+    }
+
+    render() {
+        const inputField = this.getInputField();
+        const buttons = this.getButtons();
+
+        return (
+            <div className="row">
+                {inputField}
+                {buttons}
+
+                {/*                 <div className="add_image" onClick={this.props.handleClick}>
+                    <FontAwesomeIcon icon={faPlus} />
+                </div> */}
             </div>
         );
     }

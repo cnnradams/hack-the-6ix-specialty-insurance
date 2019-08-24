@@ -9,9 +9,9 @@
   
   .chat_window {
     /*position: absolute;*/
-    width: calc(100% - 20px);
+    width: calc(100% - 10px);
     max-width: 800px;
-    height: 1000px;
+    height: 1800px;
     border-radius: 10px;
     background-color: #fff;
     top: 50%;
@@ -19,40 +19,7 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
     background-color: #f8f8f8;
     overflow: hidden;
-    height: calc(100vh - 120px);
-  }
-  
-  .top_menu {
-    background-color: #fff;
-    width: 100%;
-    padding: 13px 0px;
-    box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
-  }
-  .top_menu .buttons {
-    margin: 3px 0 0 20px;
-    position: absolute;
-  }
-  .top_menu .buttons .button {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 10px;
-    position: relative;
-  }
-  .top_menu .buttons .button.close {
-    background-color: #f5886e;
-  }
-  .top_menu .buttons .button.minimize {
-    background-color: #fdbf68;
-  }
-  .top_menu .buttons .button.maximize {
-    background-color: #a3d063;
-  }
-  .top_menu .title {
-    text-align: center;
-    color: #337ab7;
-    font-size: 20px;
+    height: calc(100vh - 10px);
   }
   
   .messages {
@@ -99,7 +66,7 @@
     border-left-color: #c7eafc;
   }
   .messages .message.right .text {
-    color: #45829b;
+    color: black;
   }
   
   .messages .message.left .text {
@@ -111,21 +78,21 @@
     opacity: 1;
   }
   .messages .message .avatar {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: inline-block;
   }
   .messages .message .text_wrapper {
     display: inline-block;
-    padding: 20px;
+    padding: 13px;
     border-radius: 6px;
     width: calc(100% - 85px);
     min-width: 100px;
     position: relative;
   }
   .messages .message .text_wrapper::after, .messages .message .text_wrapper:before {
-    top: 18px;
+    top: 16px;
     border: solid transparent;
     content: " ";
     height: 0;
@@ -134,7 +101,7 @@
     pointer-events: none;
   }
   .messages .message .text_wrapper::after {
-    border-width: 13px;
+    border-width: 10px;
     margin-top: 0px;
   }
   .messages .message .text_wrapper::before {
@@ -142,7 +109,7 @@
     margin-top: -2px;
   }
   .messages .message .text_wrapper .text {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 300;
   }
   
@@ -156,10 +123,10 @@
   }
   .bottom_wrapper .message_input_wrapper {
     display: inline-block;
-    height: 50px;
+    height: 40px;
     border-radius: 25px;
     border: 1px solid #bcbdc0;
-    width: calc(100% - 160px);
+    width: calc(100% - 100px);
     position: relative;
     padding: 0 20px;
   }
@@ -173,8 +140,8 @@
     color: gray;
   }
   .bottom_wrapper .send_message {
-    width: 75px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: inline-block;
     border-radius: 50px;
     background-color: #a3d063;
@@ -187,8 +154,8 @@
   }
 
   .bottom_wrapper .add_image {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: inline-block;
     border-radius: 50px;
     background-color: #a3d063;
@@ -205,10 +172,6 @@
     height: 50%;
   }
 
-  .bottom_wrapper .send_message:hover {
-    color: #a3d063;
-    background-color: #fff;
-  }
   .bottom_wrapper .send_message .text {
     font-size: 18px;
     font-weight: 300;
