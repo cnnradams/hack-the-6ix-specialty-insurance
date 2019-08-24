@@ -1,60 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
-import './ChatBox.css';
-import MessageBox from './Components/MessageBox'
-
-class SendButton extends Component {
-  render() {
-    return (
-        <div className="send_message" onClick={this.props.handleClick}>
-          <div className="text">send</div>
-        </div>
-    );
-  }
-}
-
-class MessageTextBoxContainer extends Component {
-  render() {
-    return (
-      <div className="message_input_wrapper">
-        <input id="msg_input" className="message_input" placeholder="Type your messages here..." value={this.props.message} onChange={this.props.onChange} onKeyPress={this.props._handleKeyPress} />
-      </div>
-    );
-  }
-}
-
-class Avartar extends Component {
-  render(){
-    return(
-      <div className="avatar"/>
-    );
-  }
-}
-
-class BotMessageBox extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <li className="message left appeared">
-        <Avartar></Avartar>
-        <div className="text_wrapper">
-          <div className="text">{this.props.message}</div>
-        </div>
-      </li>
-    );
-  }
-}
+import './ChatApp.css';
+import MessageBox from './Components/MessagesContainer'
+import UserMessageBox from './Components/UserMessageBox'
 
 class ChatApp extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      "messages": [], 
-      "current_message": "" 
+    this.state = {
+      "messages": [],
+      "current_message": "",
+      "isImageUpload": false
     }
-    
+
     this.handleClick = this.handleClick.bind(this);
     this._handleKeyPress = this._handleKeyPress.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -90,8 +48,11 @@ class ChatApp extends Component {
 
   }
 
-  handleClick() {
-    this.addMessageBox();
+  handleClick(isImage) {
+    if (isImage) {
+    } else {
+      this.addMessageBox();
+    }
   }
 
   onChange(e) {
@@ -110,21 +71,20 @@ class ChatApp extends Component {
 
   render() {
     return (
-      <div className="chat_window">
-        <MessageBox messages={this.state.messages}></MessageBox>
-        <div className="bottom_wrapper clearfix">
-          <MessageTextBoxContainer
-            _handleKeyPress={this._handleKeyPress}
-            onChange={this.onChange}
-            message={this.state.current_message}></MessageTextBoxContainer>
-          <SendButton handleClick={this.handleClick}></SendButton>
+      <div class="d-flex justify-content-center">
+        <div className="chat_window">
+          <MessageBox messages={this.state.messages}></MessageBox>
+          <div className="bottom_wrapper clearfix">
+            <UserMessageBox
+              _handleKeyPress={this._handleKeyPress}
+              onChange={this.onChange}
+              message={this.state.current_message}
+              handleClick={this.handleClick} />
+          </div>
         </div>
-
       </div>
     );
   }
 }
-
-
 
 export default ChatApp;

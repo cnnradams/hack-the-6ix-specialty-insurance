@@ -8,6 +8,22 @@ class Avartar extends Component {
     }
 }
 
+class BotMessageBox extends Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <li className="message left appeared">
+                <Avartar></Avartar>
+                <div className="text_wrapper">
+                    <div className="text">{this.props.message}</div>
+                </div>
+            </li>
+        );
+    }
+}
+
 class UserMessageBox extends Component {
     constructor(props) {
         super(props);
@@ -25,7 +41,7 @@ class UserMessageBox extends Component {
     }
 }
 
-class MessageBox extends Component {
+class MessagesContainer extends Component {
     constructor(props) {
         super(props);
         this.createBotMessages = this.createBotMessages.bind(this);
@@ -60,4 +76,4 @@ class MessageBox extends Component {
     }
 }
 
-export default MessageBox;
+export default MessagesContainer;

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import ChatApp from './ChatApp';
 import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(<ChatApp />, document.getElementById('root'));
 
