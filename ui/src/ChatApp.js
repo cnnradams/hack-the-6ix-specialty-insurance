@@ -49,10 +49,7 @@ class ChatApp extends Component {
   }
 
   handleClick(isImage) {
-    if (isImage) {
-    } else {
       this.addMessageBox();
-    }
   }
 
   onChange(e) {
