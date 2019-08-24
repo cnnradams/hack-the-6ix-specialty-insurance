@@ -35,7 +35,7 @@ export default class UserMessageBox extends Component {
         this.setState({
             isFile: false
         })
-        axios.post('EndpointURL', fd, {
+        axios.get('EndpointURL', fd, {
             onUploadProgress: progressEvent => {
                 console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100))
             }

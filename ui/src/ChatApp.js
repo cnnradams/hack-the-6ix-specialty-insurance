@@ -23,12 +23,12 @@ class ChatApp extends Component {
   }
 
   componentDidMount() {
-    axios.get("http://3.226.124.218:5000/initialize/").then(res => res.json())
+    axios.get("http://3.226.124.218:5000/initialize/")
       .then(
         (result) => {
           this.setState({
-            messages: [{ "message": result.message, "isbotmessage": true }],
-            token: result.token
+            messages: [{ "message": result.data.message, "isbotmessage": true }],
+            token: result.data.token
           });
         }).catch(error => {
           console.log(error)
@@ -61,22 +61,17 @@ class ChatApp extends Component {
 
     messages = [...messages, { "message": current_message }];
 
-    axios.get("http://3.226.124.218:5000/post-chatbot", {
-      params: {
-        message: current_message,
-        token: this.state.token
-      }
-    }).then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            messages: [...messages, { "message": result.message, "isbotmessage": true }],
-            current_message: result.message
-          });
-        }).catch(error => {
-          console.log(error)
-        })
-
+    axios.get("http://3.226.124.218:5000/post-chatbot?message=" + current_message + "&token=" + this.state.token)
+    .then(
+      (result) => {
+        console.log(result)
+        this.setState({
+          messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
+          current_message: result.data.message
+        });
+      }).catch(error => {
+        console.log(error)
+      })
   }
 
   addMessageBox(enter = true) {
@@ -86,17 +81,12 @@ class ChatApp extends Component {
     if (current_message && enter) {
       messages = [...messages, { "message": current_message }];
 
-      axios.get("http://3.226.124.218:5000/post-chatbot", {
-        params: {
-          message: current_message,
-          token: this.state.token
-        }
-      }).then(res => res.json())
+      axios.get("http://3.226.124.218:5000/post-chatbot?message=" + current_message + "&token=" + this.state.token)
         .then(
           (result) => {
             this.setState({
-              messages: [...messages, { "message": result.message, "isbotmessage": true }],
-              current_message: result.message
+              messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
+              current_message: result.data.message
             });
           }).catch(error => {
             console.log(error)
