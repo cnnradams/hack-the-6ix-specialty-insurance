@@ -6,7 +6,8 @@ import axios from 'axios'
 export default class UserMessageBox extends Component {
     state = {
         selectedFile: null,
-        isFile: false
+        isFile: false,
+        imgUpload: ''
     }
 
     fileSelectedHandler = event => {
@@ -19,6 +20,18 @@ export default class UserMessageBox extends Component {
     fileUploadHandler = () => {
         const fd = new FormData();
         fd.append('image', this.state.selectedFile, this.state.selectedFile.name)
+        var file = this.state.selectedFile
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+            this.setState({
+                imgUpload: reader.result.replace("data:image/jpeg;base64,/", "")
+            })
+            console.log(this.state.imgUpload)
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        }
         this.setState({
             isFile: false
         })
