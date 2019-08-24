@@ -7,13 +7,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 
 class RecognizeImage():
-    def __init__(self):
-        self.client = boto3.client(
-            aws_access_key_id=ACCESS_KEY,
-            aws_secret_access_key=SECRET_KEY,
-            region_name='us-west-1',
-            service_name='rekognition'
-        )
+    def __init__(self, client):
+        self.client = client
 
     def classify_image(self, image):
         response = self.client.detect_labels(

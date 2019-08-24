@@ -5,11 +5,15 @@ import numpy as np
 import base64
 from flask import Flask
 from flask import request
+import uuid
+import boto3
 from flask import jsonify
 from flask_socketio import SocketIO, emit
 
 import cv2
 sid_list = set()
+ACCESS_KEY = os.environ['ACCESS_KEY']
+SECRET_KEY = os.environ['SECRET_KEY']
 
 
 def draw_bounding_box(img_bytes, label, confidence, x, y, x_plus_w, y_plus_h):
@@ -38,36 +42,93 @@ def draw_bounding_box(img_bytes, label, confidence, x, y, x_plus_w, y_plus_h):
 app = Flask(__name__, static_folder='public', static_url_path='')
 
 socketio = SocketIO(app)
-imgr = RecognizeImage()
+imgr = RecognizeImage(boto3.client(
+    aws_access_key_id=ACCESS_KEY,
+    aws_secret_access_key=SECRET_KEY,
+    region_name='us-east-1',
+    service_name='rekognition'
+))
+lex_client = boto3.client(aws_access_key_id=ACCESS_KEY,
+                          aws_secret_access_key=SECRET_KEY,
+                          region_name='us-east-1',
+                          service_name='lex-runtime')
 valuer = ValueImage()
 img_b64 = ""
 
 
-@app.route('/get_info', methods=['GET', 'POST'])
-def get_info():
-    data = request.get_json()
-    image = data['image']
+def get_info(image, token):
     image = base64.b64decode(image)
     label, x, y, width, height = imgr.classify_image(image)
     price = valuer.value_label(label)
+    duration = user_info_dict[token]['duration']
     loc = draw_bounding_box(
         image, '%s - estimated price: $%0.2f' % (label, price), 1, x, y, x + width, y + height)
     risk = 0.01
-    premium = (price * 0.2 + price * risk) / 365.0
+    premium = (price * 0.2 + price * risk) / 365.0 * duration
     socketio.emit('img', [loc, label, '$%0.2f' %
                           price, '%0.2f%%' % (risk * 100), '$%0.2f/day' % (premium)])
+    if 'premium' in user_info_dict[token]:
+        user_info_dict[token]['premium'] += premium
+    else:
+        user_info_dict[token]['premium'] = premium
 
-    return jsonify((label, price, risk, premium)), 200
+    return label, '$%0.2f' % price
 
 
-@app.route('/img/')
-def ret_img():
-    return img_b64
+user_info_dict = dict()
 
 
 @app.route('/')
 def root():
     return app.send_static_file('index.html')
+
+
+@app.route('/initialize/', methods=["GET", "POST"])
+def initialize_chatbot():
+    token = str(uuid.uuid1())
+    # get intro from lex
+    response = lex_client.put_session(
+        botName="SpecialtyInsuranceBot",
+        botAlias="Bot",
+        userId=token,
+        dialogAction={
+            "type": "ElicitIntent",
+            "message": "intro message",
+            "messageFormat": "PlainText"
+        }
+    )
+    intro = response['message']
+    user_info_dict[token] = dict()
+    return jsonify(message=intro, token=token)
+
+
+@app.route('/post-chatbot', methods=['POST', 'GET'])
+def post_chatbot():
+    data = request.get_json()
+    message = data['message']
+    token = data['token']
+    response = lex_client.post_text(
+        botName="SpecialtyInsuranceBot",
+        botAlias="Bot",
+        userId=token,
+        inputText=message
+    )
+    print(response)
+    response_message = response['message']
+    # assuming ('info_name', info)
+    extracted_info = ('duration', '13')
+    user_info_dict[token][extracted_info[0]] = extracted_info[1]
+    # get response from AWS
+    return jsonify(message=response_message)
+
+
+@app.route('/post-image')
+def post_image():
+    data = request.get_json()
+    image = data['image']
+    token = data['token']
+    label, value = get_info(image, token)
+    return "We value your %s at %s. Is that correct?" % (label, value)
 
 
 socketio.run(app)
