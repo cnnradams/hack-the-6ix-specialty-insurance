@@ -63,7 +63,8 @@ class MessagesContainer extends Component {
     createBotMessages() {
         console.log(this.props.messages);
         return this.props.messages.map((message, index) =>
-            <UserMessageBox key={index} message={message["message"]} appearance={message["isbotmessage"] ? "left" : "right"} />
+            <UserMessageBox key={index} message={message["message"]} 
+            appearance={message["isbotmessage"] ? "left" : "right"} />
         );
     }
 

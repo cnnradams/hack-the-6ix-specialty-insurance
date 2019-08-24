@@ -27,22 +27,31 @@ export default class UserMessageBox extends Component {
                 console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100))
             }
         }).then(res => {
-                //Response from backend
-                console.log(res);
-            });
+            //Response from backend
+            console.log(res);
+        });
     }
 
     getInputField = () => {
         if (this.state.isFile) {
             return (
                 <div className="message_input_wrapper">
-                    <input id="msg_input" className="message_input" placeholder={this.state.selectedFile.name} value={this.props.message} onChange={this.props.onChange} onKeyPress={this.props._handleKeyPress} />
+                    <input id="msg_input"
+                        className="message_input"
+                        value={this.state.selectedFile.name}
+                        onChange={this.props.onChange}
+                        onKeyPress={this.props._handleKeyPress} />
                 </div>
             )
         }
         return (
             <div className="message_input_wrapper">
-                <input id="msg_input" className="message_input" placeholder="Type your messages here..." value={this.props.message} onChange={this.props.onChange} onKeyPress={this.props._handleKeyPress} />
+                <input id="msg_input"
+                    className="message_input"
+                    placeholder="Type your messages here..."
+                    value={this.props.message}
+                    onChange={this.props.onChange}
+                    onKeyPress={this.props._handleKeyPress} />
             </div>
         )
     }
@@ -56,16 +65,17 @@ export default class UserMessageBox extends Component {
                 <div className="send_message" onClick={this.props.handleClick}>
                     <div className="icon"><FontAwesomeIcon icon={faPaperPlane} /></div>
                 </div>
-
                 <div className="add_image" onClick={this.props.handleClick}>
                     <FontAwesomeIcon icon={faPlus} />
                 </div>
-                <div>
-                    <input style={{ display: 'none' }} type="file" onChange={this.fileSelectedHandler} ref={fileInput => this.fileInput = fileInput} />
-                    <button onClick={() => 
-                        this.fileInput.click()
-                    }>Pick File </button>
-                    <button onClick={this.fileUploadHandler} onClick={this.props.handleClick}>Upload</button>
+                <div className="upload_file">
+                    <input
+                        style={{ display: 'none' }} type="file"
+                        onChange={this.fileSelectedHandler}
+                        ref={fileInput => this.fileInput = fileInput}
+                    />
+                    <button onClick={() => this.fileInput.click()}>Pick File</button>
+                    <button onClick={this.fileUploadHandler}>Upload</button>
                 </div >
             </div>
         );

@@ -8,7 +8,7 @@ class ChatApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "messages": [],
+      "messages": [{ "message": "Hello! How can we help you today?", "isbotmessage": true }],
       "current_message": "",
       "isImageUpload": false
     }
@@ -19,37 +19,54 @@ class ChatApp extends Component {
     this.addMessageBox = this.addMessageBox.bind(this);
   }
 
-
   addMessageBox(enter = true) {
     let messages = this.state.messages;
     let current_message = this.state.current_message;
     console.log(this.state);
+
     if (current_message && enter) {
       messages = [...messages, { "message": current_message }];
-      fetch("http://localhost:5000?message=" + current_message)
-        .then(res => res.json())
-        .then(
-          (result) => {
-            console.log(result);
-            this.setState({
-              messages: [...messages, { "message": result["message"], "isbotmessage": true }]
-            });
-          },
-          (error) => {
-            //do nothing for now
-          }
-        );
-      current_message = ""
+      const obj = JSON.parse('{"response":"200", "body":"Hello!"}');
+      this.setState({
+        messages: [...messages, { "message": obj.body, "isbotmessage": true }],
+        current_message: obj.body
+      });
     }
-    this.setState({
-      current_message: current_message,
-      messages
-    });
-
   }
 
-  handleClick(isImage) {
-      this.addMessageBox();
+  /*   addMessageBox(enter = true) {
+      let messages = this.state.messages;
+      let current_message = this.state.current_message;
+      console.log(this.state);
+      if (current_message && enter) {
+        messages = [...messages, { "message": current_message }];
+        fetch("http://localhost:5000?message=" + current_message)
+          .then(res => res.json())
+          .then(
+            (result) => {
+              console.log(result);
+              this.setState({
+                messages: [...messages, { "message": result["message"], "isbotmessage": true }]
+              });
+            },
+            (error) => {
+              //do nothing for now
+            }
+          );
+        current_message = ""
+      }
+      this.setState({
+        current_message: current_message,
+        messages
+      });
+  
+    } */
+
+  handleClick() {
+    this.addMessageBox();
+    this.setState({
+      current_message: ""
+    })
   }
 
   onChange(e) {
@@ -64,11 +81,17 @@ class ChatApp extends Component {
       enter_pressed = true;
     }
     this.addMessageBox(enter_pressed)
+    if (enter_pressed) {
+      this.setState({
+        current_message: ""
+      })
+    }
   }
 
   render() {
+    console.log(this.state.current_message)
     return (
-      <div class="d-flex justify-content-center">
+      <div className="d-flex justify-content-center">
         <div className="chat_window">
           <MessageBox messages={this.state.messages}></MessageBox>
           <div className="bottom_wrapper clearfix">
