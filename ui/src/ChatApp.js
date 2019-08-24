@@ -39,20 +39,21 @@ class ChatApp extends Component {
     let userOptions = [];
     let isImageUpload = false;
 
-    if (msg.includes("home") || msg.includes("correct")) {
-      userOptions = ["Yes", "No"]
-    } else if (msg.includes("image(s)")) {
-      isImageUpload = true;
-    } else if (msg.includes("item")) {
-      userOptions = ["OK", "CANCEL"];
-    } else {
-      userOptions = [];
+    if (!msg.includes("Sorry")) {
+      if (msg.includes("home") || msg.includes("correct")) {
+        userOptions = ["Yes", "No"]
+      } else if (msg.includes("image(s)")) {
+        isImageUpload = true;
+      } else if (msg.includes("item")) {
+        userOptions = ["OK", "CANCEL"];
+      } else {
+        userOptions = [];
+      }
+      this.setState({
+        userOptions: userOptions,
+        isImageUpload: isImageUpload
+      })
     }
-
-    this.setState({
-      userOptions: userOptions,
-      isImageUpload: isImageUpload
-    })
   }
 
   addMessageBoxOptions = (option) => {
@@ -62,16 +63,16 @@ class ChatApp extends Component {
     messages = [...messages, { "message": current_message }];
 
     axios.get("http://3.226.124.218:5000/post-chatbot?message=" + current_message + "&token=" + this.state.token)
-    .then(
-      (result) => {
-        console.log(result)
-        this.setState({
-          messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
-          current_message: result.data.message
-        });
-      }).catch(error => {
-        console.log(error)
-      })
+      .then(
+        (result) => {
+          this.setState({
+            messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
+            current_message: result.data.message
+          });
+          this.getUserOptions(result.data.message);
+        }).catch(error => {
+          console.log(error)
+        })
   }
 
   addMessageBox(enter = true) {
@@ -88,8 +89,12 @@ class ChatApp extends Component {
               messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
               current_message: result.data.message
             });
+            this.getUserOptions(result.data.message);
           }).catch(error => {
             console.log(error)
+          })
+          this.setState({
+            current_message: ""
           })
     }
   }
@@ -129,7 +134,6 @@ class ChatApp extends Component {
   }
 
   render() {
-    console.log(this.state.userOptions)
     return (
       <div className="d-flex justify-content-center">
         <div className="chat_window">
