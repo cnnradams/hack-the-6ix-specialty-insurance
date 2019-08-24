@@ -9,7 +9,7 @@ class ChatApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "messages": [{ "message": "Hello! How can we help you today?", "isbotmessage": true }],
+      "messages": [],
       "current_message": "",
       "isImageUpload": false,
       "userOptions": ["File a claim", "Get a quote"],
