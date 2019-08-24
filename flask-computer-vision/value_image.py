@@ -23,6 +23,8 @@ class ValueImage():
         for price in prices:
             try:
                 float_price = float(price)
+                if float_price == 0:
+                    continue
                 parsed_prices.append(float_price)
             except:
                 continue
