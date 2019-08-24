@@ -7,7 +7,7 @@ class App extends React.Component {
         super(props);
         this.user = {
             id: 1,
-            avatarUrl: "https://via.placeholder.com/24/008000/008000.png"
+            avatarUrl: "http://www.pngall.com/wp-content/uploads/2016/05/Kirby-Free-PNG-Image.png"
         };
         this.bot = { id: 0 };
         this.state = {
@@ -17,23 +17,23 @@ class App extends React.Component {
                     suggestedActions: [
                         {
                             type: 'reply',
-                            value: 'Oh, really?'
+                            value: 'Vacation Insurance'
                         }, {
                             type: 'reply',
-                            value: 'Thanks, but this is boring.'
+                            value: 'I want to file a claim'
                         }
                     ],
                     timestamp: new Date(),
-                    text: "Hello, this is a demo bot. I don't do much, but I can count symbols!"
+                    text: "Hello, this is an insurance bot for recieving quotes for specialty objects and filing claims"
                 }
             ]
         };
     }
 
     addNewMessage = (event) => {
-        let botResponce = Object.assign({}, event.message);
-        botResponce.text = this.countReplayLength(event.message.text);
-        botResponce.author = this.bot;
+        let botResponse = Object.assign({}, event.message);
+        botResponse.text = this.countReplayLength(event.message.text);
+        botResponse.author = this.bot;
         this.setState((prevState) => ({
             messages: [
                 ...prevState.messages,
@@ -44,7 +44,7 @@ class App extends React.Component {
             this.setState(prevState => ({
                 messages: [
                     ...prevState.messages,
-                    botResponce
+                    botResponse
                 ]
             }));
         }, 1000);
