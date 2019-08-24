@@ -79,19 +79,52 @@ export default class UserMessageBox extends Component {
         }
     }
 
+    getUserOptionBubbles = (option) => {
+        return (
+            <div className="bubbles">
+                <button className="option_bubbles" onClick={() => this.props.handleClickwithOptions(option)}>{option}</button>
+            </div>
+        )
+    }
+
+    someFunction = () => {
+        const options = []
+        this.props.userOptions.forEach((option) => {
+            const something = this.getUserOptionBubbles(option);
+            console.log(something);
+            options.push(something);
+        })
+
+        return options;
+    }
+
     render() {
-        const inputField = this.getInputField();
-        const buttons = this.getButtons();
+        console.log(this.props)
+
+        if (this.props.isImageUpload) {
+            console.log("2")
+            return (
+                <div className="row" >
+                    {this.getInputField()}
+                    <div className="wrapper">
+                        {this.getButtons()}
+                    </div>
+                </div >
+            )
+        }
 
         return (
-            <div className="row">
-                {inputField}
-                {buttons}
-
-                {/*                 <div className="add_image" onClick={this.props.handleClick}>
-                    <FontAwesomeIcon icon={faPlus} />
-                </div> */}
+            <div>
+                <div className="row">
+                    {this.someFunction()}
+                </div>
+                <div className="row">
+                    {this.getInputField()}
+                    <div className="wrapper">
+                        {this.getButtons()}
+                    </div>
+                </div>
             </div>
-        );
+        )
     }
 }

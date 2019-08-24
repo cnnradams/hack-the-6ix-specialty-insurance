@@ -27,7 +27,7 @@
     list-style: none;
     padding: 20px 10px 0 10px;
     margin: 0;
-    height: calc(100vh - 250px);
+    height: calc(100vh - 150px);
     overflow: scroll;
   }
   .messages .message {
@@ -116,7 +116,6 @@
   .bottom_wrapper {
     position: relative;
     width: 100%;
-    background-color: #fff;
     padding: 20px 20px;
     /*position: absolute;*/
     bottom: 0;
@@ -137,7 +136,7 @@
     width: calc(100% - 40px);
     position: absolute;
     outline-width: 0;
-    color: gray;
+    padding-right: 10px;
   }
   .bottom_wrapper .send_message {
     width: 40px;
@@ -151,6 +150,30 @@
     transition: all 0.2s linear;
     text-align: center;
     float: right;
+  }
+
+  .bottom_wrapper .option_bubbles {
+    display: inline-block;
+    height: 40px;
+    border-radius: 50px;
+    border: 2px solid #a3d063;
+    color: grey;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    text-align: center;
+    float: right;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .bubbles {
+    padding-right: 10px;
+    padding-bottom: 10px;
+  }
+
+  .wrapper {
+    padding-left: 10px;
   }
 
   .bottom_wrapper .add_image {

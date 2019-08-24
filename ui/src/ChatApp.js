@@ -3,6 +3,7 @@ import './App.css';
 import './ChatApp.css';
 import MessageBox from './Components/MessagesContainer'
 import UserMessageBox from './Components/UserMessageBox'
+import axios from 'axios'
 
 class ChatApp extends Component {
   constructor(props) {
@@ -10,7 +11,9 @@ class ChatApp extends Component {
     this.state = {
       "messages": [{ "message": "Hello! How can we help you today?", "isbotmessage": true }],
       "current_message": "",
-      "isImageUpload": false
+      "isImageUpload": false,
+      "userOptions": ["File a claim", "Get a quote"],
+      "token": ""
     }
 
     this.handleClick = this.handleClick.bind(this);
@@ -19,56 +22,87 @@ class ChatApp extends Component {
     this.addMessageBox = this.addMessageBox.bind(this);
   }
 
+  componentDidMount() {
+    axios.get("http://3.226.124.218:5000/initialize/").then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            messages: [{ "message": result.message, "isbotmessage": true }],
+            token: result.token
+          });
+        }).catch(error => {
+          console.log(error)
+        })
+  }
+
+  getUserOptions = (msg) => {
+    let userOptions = [];
+    let isImageUpload = false;
+
+    if (msg.includes("home") || msg.includes("correct")) {
+      userOptions = ["Yes", "No"]
+    } else if (msg.includes("image(s)")) {
+      isImageUpload = true;
+    } else if (msg.includes("item")) {
+      userOptions = ["OK", "CANCEL"];
+    } else {
+      userOptions = [];
+    }
+
+    this.setState({
+      userOptions: userOptions,
+      isImageUpload: isImageUpload
+    })
+  }
+
+  addMessageBoxOptions = (option) => {
+    let messages = this.state.messages;
+    let current_message = option;
+
+    messages = [...messages, { "message": current_message }];
+
+    axios.get("http://3.226.124.218:5000/post-chatbot", {
+      params: {
+        message: current_message,
+        token: this.state.token
+      }
+    }).then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            messages: [...messages, { "message": result.message, "isbotmessage": true }],
+            current_message: result.message
+          });
+        }).catch(error => {
+          console.log(error)
+        })
+
+  }
+
   addMessageBox(enter = true) {
     let messages = this.state.messages;
     let current_message = this.state.current_message;
-    let isImpageUpload;
-    console.log(this.state);
 
     if (current_message && enter) {
       messages = [...messages, { "message": current_message }];
-      const obj = JSON.parse('{"response":"200", "body":"Please insert an image of the item you want to insure"}');
 
-      if (obj.body.includes("image")) {
-        isImpageUpload = true
-      } else {
-        isImpageUpload = false
-      }
-      this.setState({
-        messages: [...messages, { "message": obj.body, "isbotmessage": true }],
-        current_message: obj.body,
-        isImageUpload: isImpageUpload
-      });
+      axios.get("http://3.226.124.218:5000/post-chatbot", {
+        params: {
+          message: current_message,
+          token: this.state.token
+        }
+      }).then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              messages: [...messages, { "message": result.message, "isbotmessage": true }],
+              current_message: result.message
+            });
+          }).catch(error => {
+            console.log(error)
+          })
     }
   }
-
-  /*   addMessageBox(enter = true) {
-      let messages = this.state.messages;
-      let current_message = this.state.current_message;
-      console.log(this.state);
-      if (current_message && enter) {
-        messages = [...messages, { "message": current_message }];
-        fetch("http://localhost:5000?message=" + current_message)
-          .then(res => res.json())
-          .then(
-            (result) => {
-              console.log(result);
-              this.setState({
-                messages: [...messages, { "message": result["message"], "isbotmessage": true }]
-              });
-            },
-            (error) => {
-              //do nothing for now
-            }
-          );
-        current_message = ""
-      }
-      this.setState({
-        current_message: current_message,
-        messages
-      });
-  
-    } */
 
   handleClick() {
     this.addMessageBox();
@@ -96,19 +130,32 @@ class ChatApp extends Component {
     }
   }
 
+  handleClickwithOptions = (option) => {
+    console.log("I worked");
+    this.addMessageBoxOptions(option);
+    this.setState({
+      current_message: ""
+    })
+  }
+
   render() {
-    console.log(this.state.current_message)
+    console.log(this.state.userOptions)
     return (
       <div className="d-flex justify-content-center">
         <div className="chat_window">
-          <MessageBox messages={this.state.messages}></MessageBox>
+          <MessageBox
+            messages={this.state.messages}
+          />
           <div className="bottom_wrapper clearfix">
             <UserMessageBox
               _handleKeyPress={this._handleKeyPress}
               onChange={this.onChange}
               message={this.state.current_message}
               handleClick={this.handleClick}
-              isImageUpload={this.state.isImageUpload} />
+              isImageUpload={this.state.isImageUpload}
+              userOptions={this.state.userOptions}
+              handleClickwithOptions={this.handleClickwithOptions}
+            />
           </div>
         </div>
       </div>

@@ -8,22 +8,6 @@ class Avartar extends Component {
     }
 }
 
-class BotMessageBox extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
-            <li className="message left appeared">
-                <Avartar></Avartar>
-                <div className="text_wrapper">
-                    <div className="text">{this.props.message}</div>
-                </div>
-            </li>
-        );
-    }
-}
-
 class UserMessageBox extends Component {
     constructor(props) {
         super(props);
