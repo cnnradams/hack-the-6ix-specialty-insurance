@@ -1,13 +1,8 @@
 {
-  "name": "ui",
+  "name": "secondtry",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@progress/kendo-react-buttons": "^3.2.2",
-    "@progress/kendo-react-conversational-ui": "^3.2.2",
-    "@progress/kendo-react-intl": "^3.2.2",
-    "@progress/kendo-theme-bootstrap": "^4.1.0",
-    "@progress/kendo-theme-default": "^4.1.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "3.1.1"
