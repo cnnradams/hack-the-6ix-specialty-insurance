@@ -4,6 +4,7 @@ import './ChatApp.css';
 import MessageBox from './Components/MessagesContainer'
 import UserMessageBox from './Components/UserMessageBox'
 import axios from 'axios'
+import logo from './img/LogoSide.png';
 
 class ChatApp extends Component {
   constructor(props) {
@@ -137,6 +138,12 @@ class ChatApp extends Component {
     return (
       <div className="d-flex justify-content-center">
         <div className="chat_window">
+          <div className="row header">
+            <div className="logo">
+              <img src={logo} />
+            </div>
+          </div>
+
           <MessageBox
             messages={this.state.messages}
           />

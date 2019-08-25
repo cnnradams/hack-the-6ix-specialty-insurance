@@ -3,7 +3,7 @@
   }
   
   body {
-    background-color: #edeff2;
+    background-color: white; 
     font-family: "Calibri", "Roboto", sans-serif;
   }
   
@@ -13,7 +13,7 @@
     max-width: 800px;
     height: 1800px;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: white;
     top: 50%;
     /*transform: translateX(-50%) translateY(-50%);*/
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
@@ -38,32 +38,32 @@
     opacity: 0;
   }
   .messages .message.left .avatar {
-    background-color: #f5886e;
+    background-color: #4db5c9;
     float: left;
   }
   .messages .message.left .text_wrapper {
-    background-color: #ffe6cb;
+    background-color: #fce5bb;
     margin-left: 20px;
   }
   .messages .message.left .text_wrapper::after, .messages .message.left .text_wrapper::before {
     right: 100%;
-    border-right-color: #ffe6cb;
+    border-right-color: #fce5bb;
   }
   .messages .message.left .text {
-    color: #c48843;
+    color: #4dc9ae;
   }
   .messages .message.right .avatar {
     background-color: #fdbf68;
     float: right;
   }
   .messages .message.right .text_wrapper {
-    background-color: #c7eafc;
+    background-color: #bae1e8;
     margin-right: 20px;
     float: right;
   }
   .messages .message.right .text_wrapper::after, .messages .message.right .text_wrapper::before {
     left: 100%;
-    border-left-color: #c7eafc;
+    border-left-color: #bae1e8;
   }
   .messages .message.right .text {
     color: black;
@@ -117,7 +117,7 @@
     position: relative;
     width: 100%;
     padding: 20px 20px;
-    /*position: absolute;*/
+    position: absolute;
     bottom: 0;
   }
   .bottom_wrapper .message_input_wrapper {
@@ -143,8 +143,8 @@
     height: 40px;
     display: inline-block;
     border-radius: 50px;
-    background-color: #a3d063;
-    border: 2px solid #a3d063;
+    background-color: #4db5c9;
+    border: 2px solid #4db5c9;
     color: #fff;
     cursor: pointer;
     transition: all 0.2s linear;
@@ -156,7 +156,7 @@
     display: inline-block;
     height: 40px;
     border-radius: 50px;
-    border: 2px solid #a3d063;
+    border: 2px solid #4db5c9;
     color: grey;
     background-color: white;
     cursor: pointer;
@@ -208,5 +208,22 @@
   
   #msg_input{
       color: black;
+      background:
   }
+
+  .header {
+    background-color: #ccf7ff;
+  }
+
+  .logo {
+    padding: 5px;
+  }
+
+  img {
+    padding-left: 20px;
+    width: 150px !important; /* you can use % */
+    height: auto;
+    background-size:contain;
+  }
+  
   
