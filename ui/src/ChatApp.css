@@ -9,9 +9,11 @@
   
   .chat_window {
     /*position: absolute;*/
-    width: calc(100% - 10px);
-    max-width: 800px;
-    height: 1800px;
+    /* width: calc(100% - 10px); */
+    width: 100%;
+    height: 100%;
+/*     max-width: 800px;
+    height: 1800px; */
     border-radius: 10px;
     background-color: white;
     top: 50%;
@@ -27,7 +29,7 @@
     list-style: none;
     padding: 20px 10px 0 10px;
     margin: 0;
-    height: calc(100vh - 150px);
+    height: 65%;
     overflow: scroll;
   }
   .messages .message {
@@ -117,7 +119,7 @@
     position: relative;
     width: 100%;
     padding: 20px 20px;
-    position: absolute;
+    position: relative;
     bottom: 0;
   }
   .bottom_wrapper .message_input_wrapper {
@@ -125,7 +127,7 @@
     height: 40px;
     border-radius: 25px;
     border: 1px solid #bcbdc0;
-    width: calc(100% - 100px);
+    width: 75%;
     position: relative;
     padding: 0 20px;
     background-color: white;
