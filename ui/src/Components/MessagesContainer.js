@@ -16,7 +16,7 @@ class UserMessageBox extends Component {
     render() {
         return (
             <li className={`message ${this.props.appearance} appeared`}>
-                <Avartar><img src='http://pluspng.com/img-png/kirby-hd-png-kirby-1548.png' alt='Kirby'></img></Avartar>
+                <Avartar><link rel="shortcut icon" href="%PUBLIC_URL%/Icon.png" /></Avartar>
                 <div className="text_wrapper">
                     <div className="text">{this.props.message}</div>
                 </div>
