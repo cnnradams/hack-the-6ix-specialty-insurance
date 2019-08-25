@@ -47,7 +47,7 @@ class ChatApp extends Component {
     let isImageUpload = false;
 
     if (!msg.includes("Sorry")) {
-      if (msg.includes("home") || msg.includes("correct?")) {
+      if (msg.includes("renting") || msg.includes("correct?")) {
         userOptions = ["Yes", "No"]
       } else if (msg.includes("image(s)")) {
         isImageUpload = true;
