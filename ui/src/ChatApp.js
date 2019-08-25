@@ -145,6 +145,7 @@ class ChatApp extends Component {
               _handleKeyPress={this._handleKeyPress}
               onChange={this.onChange}
               message={this.state.current_message}
+              messages={this.state.messages}
               handleClick={this.handleClick}
               isImageUpload={this.state.isImageUpload}
               userOptions={this.state.userOptions}

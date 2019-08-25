@@ -7,7 +7,8 @@ export default class UserMessageBox extends Component {
     state = {
         selectedFile: null,
         isFile: false,
-        imgUpload: ''
+        imgUpload: '',
+        messages: this.props.messages
     }
 
     fileSelectedHandler = event => {
@@ -23,31 +24,44 @@ export default class UserMessageBox extends Component {
         fd.append('image', this.state.selectedFile, this.state.selectedFile.name)
         var file = this.state.selectedFile
         let reader = new FileReader()
+        // reader.readAsBinaryString(file)
         reader.readAsDataURL(file)
         reader.onload = () => {
             this.setState({
-                imgUpload: reader.result.replace("data:image/jpeg;base64,/", "")
+                imgUpload: reader.result.replace("data:image/jpeg;base64,", "")
             })
             console.log(this.state.imgUpload.length)
+
+            fetch("http://3.226.124.218:5000/post-image", {
+                method: 'POST',
+                headers: {
+                    'Accept': '*',
+                },
+                body: JSON.stringify({
+                    image: this.state.imgUpload,
+                    token: this.props.token
+                })
+            })
+                .then(
+                    (result) => {
+                        console.log(result)
+                        this.setState({
+                            messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
+                            current_message: result.data.message
+                        });
+                    }).catch(error => {
+                        console.log(error)
+                    })
+
+
         };
         reader.onerror = function (error) {
             console.log('Error: ', error);
         }
+
         this.setState({
             isFile: false
         })
-
-        axios.get("http://3.226.124.218:5000/post-image?image="+ String(this.state.imgUpload) + "&token=" + this.props.token)
-            .then(
-                (result) => {
-                    console.log(result)
-                    this.setState({
-                        messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
-                        current_message: result.data.message
-                    });
-                }).catch(error => {
-                    console.log(error)
-                })
     }
 
     getInputField = () => {
