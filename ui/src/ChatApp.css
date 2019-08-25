@@ -85,7 +85,7 @@
   }
   .messages .message .text_wrapper {
     display: inline-block;
-    padding: 13px;
+    padding: 10px;
     border-radius: 6px;
     width: calc(100% - 85px);
     min-width: 100px;
@@ -128,6 +128,7 @@
     width: calc(100% - 100px);
     position: relative;
     padding: 0 20px;
+    background-color: white;
   }
   .bottom_wrapper .message_input_wrapper .message_input {
     border: none;
@@ -137,6 +138,7 @@
     position: absolute;
     outline-width: 0;
     padding-right: 10px;
+    background-color: white;
   }
   .bottom_wrapper .send_message {
     width: 40px;
@@ -170,6 +172,9 @@
   .bubbles {
     padding-right: 10px;
     padding-bottom: 7px;
+    padding-top: 7px;
+    position: relative;
+    font-size: 15px;
   }
 
   .wrapper {

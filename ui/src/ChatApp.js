@@ -26,6 +26,10 @@ class ChatApp extends Component {
   }
 
   componentDidMount() {
+    this.initializeBot();
+  }
+
+  initializeBot = () => {
     axios.get("http://3.226.124.218:5000/initialize/")
       .then(
         (result) => {
@@ -47,14 +51,36 @@ class ChatApp extends Component {
         userOptions = ["Yes", "No"]
       } else if (msg.includes("image(s)")) {
         isImageUpload = true;
-      } else if (msg.includes("item")) {
-        userOptions = ["OK", "CANCEL"];
+      } else if (msg.includes("value your")) {
+        userOptions = [ "Ok","Add Image", "Wrong Value"]
+      } else if (msg.includes("quote") || msg.includes("updated")) {
+        userOptions = ["Pay", "Exit"]
+      } else if (msg.includes("PayPal") || msg.includes("line") ) {
+        userOptions = ["Exit"]
       } else {
         userOptions = [];
       }
+
+      if (!msg.includes("exiting")) {
+        this.setState({
+          userOptions: userOptions,
+          isImageUpload: isImageUpload,
+          current_message: ""
+        })
+      } else {
+        this.setState({
+          selectedFile: null,
+          messages: [],
+          current_message: "",
+          isImageUpload: false,
+          userOptions: ["Get a quote", "File a claim"],
+          token: "",
+          isFile: false
+        })
+        this.initializeBot();
+      }
+    } else {
       this.setState({
-        userOptions: userOptions,
-        isImageUpload: isImageUpload,
         current_message: ""
       })
     }
@@ -65,6 +91,8 @@ class ChatApp extends Component {
     let current_message = option;
 
     messages = [...messages, { "message": current_message }];
+
+    console.log(current_message)
 
     axios.get("http://3.226.124.218:5000/post-chatbot?message=" + current_message + "&token=" + this.state.token)
       .then(
@@ -106,7 +134,6 @@ class ChatApp extends Component {
   fileSelectedHandler = event => {
     this.setState({
       selectedFile: event.target.files[0],
-      isFile: true
     })
   }
 
@@ -116,8 +143,6 @@ class ChatApp extends Component {
     fd.append('image', this.state.selectedFile, this.state.selectedFile.name)
     var file = this.state.selectedFile
     let reader = new FileReader()
-
-    // reader.readAsBinaryString(file)
     reader.readAsDataURL(file)
     reader.onload = () => {
       this.setState({
@@ -144,6 +169,7 @@ class ChatApp extends Component {
                 messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
                 current_message: result.data.message
               });
+              this.getUserOptions(result.data.message);
             }).catch(error => {
               console.log(error)
             })
@@ -153,9 +179,6 @@ class ChatApp extends Component {
         console.log('Error: ', error);
       }
     }
-    this.setState({
-      isFile: false
-    })
   }
 
   handleClick() {
@@ -185,6 +208,7 @@ class ChatApp extends Component {
   }
 
   handleClickwithOptions = (option) => {
+    console.log(option);
     this.addMessageBoxOptions(option);
     this.setState({
       current_message: ""

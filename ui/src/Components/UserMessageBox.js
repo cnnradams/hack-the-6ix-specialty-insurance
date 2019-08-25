@@ -1,27 +1,26 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
 
 export default class UserMessageBox extends Component {
     state = {
-        isFile: false,
+        isFile: this.props.isFile,
         imgUpload: '',
         messages: this.props.messages
     }
 
     getInputField = () => {
-        if (this.state.isFile) {
-            return (
-                <div className="message_input_wrapper">
-                    <input id="msg_input"
-                        className="message_input"
-                        value={this.state.selectedFile.name}
-                        onChange={this.props.onChange}
-                        onKeyPress={this.props._handleKeyPress} />
-                </div>
-            )
-        }
+        /*         if (this.state.isFile) {
+                    return (
+                        <div className="message_input_wrapper">
+                            <input id="msg_input"
+                                className="message_input"
+                                value={this.state.selectedFile.name}
+                                onChange={this.props.onChange}
+                                onKeyPress={this.props._handleKeyPress} />
+                        </div>
+                    )
+                } */
         return (
             <div className="message_input_wrapper">
                 <input id="msg_input"
@@ -52,7 +51,6 @@ export default class UserMessageBox extends Component {
                 <button className="send_message" onClick={this.props.handleClick}>
                     <FontAwesomeIcon icon={faPaperPlane} />
                 </button>
-
             )
         }
     }
@@ -66,7 +64,9 @@ export default class UserMessageBox extends Component {
     }
 
     someFunction = () => {
+
         const options = []
+
         this.props.userOptions.forEach((option) => {
             const something = this.getUserOptionBubbles(option);
             console.log(something);
@@ -81,7 +81,7 @@ export default class UserMessageBox extends Component {
 
         if (!this.props.isImageUpload) {
             return (
-                <div>
+                <div className="bottom_wrapper">
                     <div className="row">
                         {this.someFunction()}
                     </div>
