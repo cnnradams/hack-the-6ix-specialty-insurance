@@ -35,14 +35,25 @@ export default class UserMessageBox extends Component {
         this.setState({
             isFile: false
         })
-        axios.get('EndpointURL', fd, {
-            onUploadProgress: progressEvent => {
-                console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100))
-            }
-        }).then(res => {
-            //Response from backend
-            console.log(res);
-        });
+        // axios.get('EndpointURL', fd, {
+        //     onUploadProgress: progressEvent => {
+        //         console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100))
+        //     }
+        // }).then(res => {
+        //     //Response from backend
+        //     console.log(res);
+        // });
+        axios.get("http://3.226.124.218:5000/post-image?image=" + this.state.imgUpload + "&token=" + this.props.token)
+            .then(
+                (result) => {
+                    console.log(result)
+                    this.setState({
+                        messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
+                        current_message: result.data.message
+                    });
+                }).catch(error => {
+                    console.log(error)
+                })
     }
 
     getInputField = () => {
