@@ -12,7 +12,7 @@ class ChatApp extends Component {
       "messages": [],
       "current_message": "",
       "isImageUpload": false,
-      "userOptions": ["File a claim", "Get a quote"],
+      "userOptions": ["Get a quote", "File a claim"],
       "token": ""
     }
 
@@ -51,7 +51,8 @@ class ChatApp extends Component {
       }
       this.setState({
         userOptions: userOptions,
-        isImageUpload: isImageUpload
+        isImageUpload: isImageUpload,
+        current_message: ""
       })
     }
   }
@@ -93,9 +94,9 @@ class ChatApp extends Component {
           }).catch(error => {
             console.log(error)
           })
-          this.setState({
-            current_message: ""
-          })
+      this.setState({
+        current_message: ""
+      })
     }
   }
 
@@ -126,7 +127,6 @@ class ChatApp extends Component {
   }
 
   handleClickwithOptions = (option) => {
-    console.log("I worked");
     this.addMessageBoxOptions(option);
     this.setState({
       current_message: ""

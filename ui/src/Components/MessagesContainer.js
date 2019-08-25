@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Avartar extends Component {
     render() {
         return (
-            <div className="avatar" />
+            <div className="avatar"/>
         );
     }
 }
@@ -16,7 +16,7 @@ class UserMessageBox extends Component {
     render() {
         return (
             <li className={`message ${this.props.appearance} appeared`}>
-                <Avartar></Avartar>
+                <Avartar><img src='http://pluspng.com/img-png/kirby-hd-png-kirby-1548.png' alt='Kirby'></img></Avartar>
                 <div className="text_wrapper">
                     <div className="text">{this.props.message}</div>
                 </div>

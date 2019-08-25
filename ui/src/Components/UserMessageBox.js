@@ -18,6 +18,7 @@ export default class UserMessageBox extends Component {
     }
 
     fileUploadHandler = () => {
+        let messages = this.state.messages;
         const fd = new FormData();
         fd.append('image', this.state.selectedFile, this.state.selectedFile.name)
         var file = this.state.selectedFile
@@ -27,7 +28,7 @@ export default class UserMessageBox extends Component {
             this.setState({
                 imgUpload: reader.result.replace("data:image/jpeg;base64,/", "")
             })
-            console.log(this.state.imgUpload)
+            console.log(this.state.imgUpload.length)
         };
         reader.onerror = function (error) {
             console.log('Error: ', error);
@@ -35,15 +36,8 @@ export default class UserMessageBox extends Component {
         this.setState({
             isFile: false
         })
-        // axios.get('EndpointURL', fd, {
-        //     onUploadProgress: progressEvent => {
-        //         console.log('Upload Progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100))
-        //     }
-        // }).then(res => {
-        //     //Response from backend
-        //     console.log(res);
-        // });
-        axios.get("http://3.226.124.218:5000/post-image?image=" + this.state.imgUpload + "&token=" + this.props.token)
+
+        axios.get("http://3.226.124.218:5000/post-image?image="+ String(this.state.imgUpload) + "&token=" + this.props.token)
             .then(
                 (result) => {
                     console.log(result)
