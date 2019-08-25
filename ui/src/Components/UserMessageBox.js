@@ -5,63 +5,9 @@ import axios from 'axios'
 
 export default class UserMessageBox extends Component {
     state = {
-        selectedFile: null,
         isFile: false,
         imgUpload: '',
         messages: this.props.messages
-    }
-
-    fileSelectedHandler = event => {
-        this.setState({
-            selectedFile: event.target.files[0],
-            isFile: true
-        })
-    }
-
-    fileUploadHandler = () => {
-        let messages = this.state.messages;
-        const fd = new FormData();
-        fd.append('image', this.state.selectedFile, this.state.selectedFile.name)
-        var file = this.state.selectedFile
-        let reader = new FileReader()
-        // reader.readAsBinaryString(file)
-        reader.readAsDataURL(file)
-        reader.onload = () => {
-            this.setState({
-                imgUpload: reader.result.replace("data:image/jpeg;base64,", "")
-            })
-            console.log(this.state.imgUpload.length)
-
-            fetch("http://3.226.124.218:5000/post-image", {
-                method: 'POST',
-                headers: {
-                    'Accept': '*',
-                },
-                body: JSON.stringify({
-                    image: this.state.imgUpload,
-                    token: this.props.token
-                })
-            })
-                .then(
-                    (result) => {
-                        console.log(result)
-                        this.setState({
-                            messages: [...messages, { "message": result.data.message, "isbotmessage": true }],
-                            current_message: result.data.message
-                        });
-                    }).catch(error => {
-                        console.log(error)
-                    })
-
-
-        };
-        reader.onerror = function (error) {
-            console.log('Error: ', error);
-        }
-
-        this.setState({
-            isFile: false
-        })
     }
 
     getInputField = () => {
@@ -94,10 +40,10 @@ export default class UserMessageBox extends Component {
                 <div className="upload_file">
                     <input
                         style={{ display: 'none' }} type="file"
-                        onChange={this.fileSelectedHandler}
+                        onChange={this.props.fileSelectedHandler}
                         ref={fileInput => this.fileInput = fileInput}
                     />
-                    <button className="send_message" onClick={this.fileUploadHandler}><FontAwesomeIcon icon={faPaperPlane} /></button>
+                    <button className="send_message" onClick={this.props.fileUploadHandler}><FontAwesomeIcon icon={faPaperPlane} /></button>
                     <button className="add_image" onClick={() => this.fileInput.click()}><FontAwesomeIcon icon={faPlus} /></button>
                 </div >
             )
@@ -133,30 +79,29 @@ export default class UserMessageBox extends Component {
     render() {
         console.log(this.props)
 
-        if (this.props.isImageUpload) {
-            console.log("2")
+        if (!this.props.isImageUpload) {
             return (
-                <div className="row" >
-                    {this.getInputField()}
-                    <div className="wrapper">
-                        {this.getButtons()}
+                <div>
+                    <div className="row">
+                        {this.someFunction()}
                     </div>
-                </div >
+                    <div className="row">
+                        {this.getInputField()}
+                        <div className="wrapper">
+                            {this.getButtons()}
+                        </div>
+                    </div>
+                </div>
             )
         }
 
         return (
-            <div>
-                <div className="row">
-                    {this.someFunction()}
+            <div className="row" >
+                {this.getInputField()}
+                <div className="wrapper">
+                    {this.getButtons()}
                 </div>
-                <div className="row">
-                    {this.getInputField()}
-                    <div className="wrapper">
-                        {this.getButtons()}
-                    </div>
-                </div>
-            </div>
+            </div >
         )
     }
 }
