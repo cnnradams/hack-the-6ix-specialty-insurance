@@ -149,6 +149,7 @@ class ChatApp extends Component {
               isImageUpload={this.state.isImageUpload}
               userOptions={this.state.userOptions}
               handleClickwithOptions={this.handleClickwithOptions}
+              token={this.state.token}
             />
           </div>
         </div>
