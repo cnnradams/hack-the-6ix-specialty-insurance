@@ -54,7 +54,7 @@ class ChatApp extends Component {
       } else if (msg.includes("value your")) {
         userOptions = [ "Ok","Add Image", "Wrong Value"]
       } else if (msg.includes("quote") || msg.includes("updated")) {
-        userOptions = ["Pay", "Exit"]
+        userOptions = ["OK", "Exit"]
       } else if (msg.includes("PayPal") || msg.includes("line") ) {
         userOptions = ["Exit"]
       } else {

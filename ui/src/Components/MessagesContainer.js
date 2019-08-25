@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 class Avartar extends Component {
     render() {
         return (
-            <div className="avatar"/>
+            <div className="avatar"> 
+            </div>
         );
     }
 }

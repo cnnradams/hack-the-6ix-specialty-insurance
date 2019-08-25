@@ -41,6 +41,7 @@
     background-color: #4db5c9;
     float: left;
   }
+
   .messages .message.left .text_wrapper {
     background-color: #fce5bb;
     margin-left: 20px;
@@ -56,6 +57,7 @@
     background-color: #fdbf68;
     float: right;
   }
+
   .messages .message.right .text_wrapper {
     background-color: #bae1e8;
     margin-right: 20px;
@@ -83,11 +85,21 @@
     border-radius: 50%;
     display: inline-block;
   }
+
+  img {
+    width: 10px;
+    height: 10px;
+    border: 1px solid green;
+    display: inline-block;
+    overflow: auto;
+  }
+
   .messages .message .text_wrapper {
     display: inline-block;
     padding: 10px;
     border-radius: 6px;
     width: calc(100% - 85px);
+    bottom: 5px;
     min-width: 100px;
     position: relative;
   }
@@ -118,7 +130,7 @@
     width: 100%;
     padding: 20px 20px;
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
   }
   .bottom_wrapper .message_input_wrapper {
     display: inline-block;
